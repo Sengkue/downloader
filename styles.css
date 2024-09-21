@@ -68,6 +68,7 @@ label {
 #images-per-page {
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 5;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
