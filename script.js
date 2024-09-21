@@ -34,18 +34,19 @@ document.getElementById("search-button").addEventListener("click", () => {
 });
 
 // Fetch images from Pixabay API
-function fetchImages() {
+async function fetchImages() {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
     const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${imagesPerPage}&page=${currentPage}`;
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            displayImages(data.hits);
-            updatePagination(data.totalHits);
-        })
-        .catch(error => console.error("Error fetching images:", error));
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        displayImages(data.hits);
+        updatePagination(data.totalHits);
+    } catch (error) {
+        console.error("Error fetching images:", error);
+    }
 }
 
 // Display images in results
@@ -106,23 +107,24 @@ document.getElementById("next-button").addEventListener("click", () => {
 });
 
 // Download selected images functionality
-document.getElementById("download-button").addEventListener("click", () => {
+document.getElementById("download-button").addEventListener("click", async () => {
     const checkboxes = document.querySelectorAll(".checkbox:checked");
-    checkboxes.forEach(checkbox => {
+    for (const checkbox of checkboxes) {
         const url = checkbox.value;
         const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
         const randomSuffix = Math.floor(Math.random() * 1000000);
         const filename = `sengkuevang_${dateTime}_${randomSuffix}.jpg`;
 
-        fetch(url)
-            .then(response => response.blob())
-            .then(blob => {
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = filename;
-                link.click();
-                window.URL.revokeObjectURL(link.href); // Clean up
-            })
-            .catch(err => console.error("Download error:", err));
-    });
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+            window.URL.revokeObjectURL(link.href); // Clean up
+        } catch (err) {
+            console.error("Download error:", err);
+        }
+    }
 });
