@@ -22,16 +22,7 @@ body {
     margin: 10px;
 }
 
-.image {
-    display: inline-block;
-    margin: 10px;
-}
-
-.image img {
-    width: 200px;
-    height: auto;
-}
-
-.checkbox {
+.link {
     display: block;
+    margin: 10px 0;
 }
