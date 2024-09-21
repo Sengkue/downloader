@@ -1,9 +1,9 @@
 let currentPage = 1;
-let imagesPerPage = 10; // Default value
+let imagesPerPage = 10;
 
 document.getElementById("images-per-page").addEventListener("change", (event) => {
     imagesPerPage = parseInt(event.target.value, 10);
-    currentPage = 1; // Reset to first page
+    currentPage = 1;
     fetchImages();
 });
 
