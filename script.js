@@ -1,31 +1,31 @@
 let currentPage = 1;
 let imagesPerPage = 10;
 
-// Function to update the number of images per page
+// Update the number of images per page
 document.getElementById("images-per-page").addEventListener("change", (event) => {
     imagesPerPage = parseInt(event.target.value, 10);
     currentPage = 1;
     fetchImages();
 });
 
-// Trigger search when pressing the Enter key
+// Trigger search on Enter key
 document.getElementById("search-input").addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         fetchImages();
     }
 });
 
-// Show the clear icon when typing, and clear input on icon click
+// Clear icon functionality
 const searchInput = document.getElementById("search-input");
 const clearIcon = document.getElementById("clear-icon");
 
 searchInput.addEventListener("input", () => {
-    clearIcon.classList.toggle("visible", searchInput.value.length > 0);
+    clearIcon.style.display = searchInput.value.length > 0 ? 'block' : 'none';
 });
 
 clearIcon.addEventListener("click", () => {
     searchInput.value = "";
-    clearIcon.classList.remove("visible");
+    clearIcon.style.display = 'none';
 });
 
 // Search button functionality
@@ -48,7 +48,7 @@ function fetchImages() {
         .catch(error => console.error("Error fetching images:", error));
 }
 
-// Display images in the results area
+// Display images in results
 function displayImages(images) {
     const imageResults = document.getElementById("image-results");
     imageResults.innerHTML = ""; // Clear previous results
@@ -81,7 +81,7 @@ function displayImages(images) {
     });
 }
 
-// Update pagination info and buttons
+// Update pagination
 function updatePagination(totalHits) {
     const pageInfo = document.getElementById("page-info");
     const totalPages = Math.ceil(totalHits / imagesPerPage);
@@ -111,7 +111,7 @@ document.getElementById("download-button").addEventListener("click", () => {
     checkboxes.forEach(checkbox => {
         const url = checkbox.value;
         const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
-        const randomSuffix = Math.floor(Math.random() * 1000); // Add a random number to ensure uniqueness
+        const randomSuffix = Math.floor(Math.random() * 1000);
         const filename = `bysengkuevang_${dateTime}_${randomSuffix}.jpg`;
 
         fetch(url)
