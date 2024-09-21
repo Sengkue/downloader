@@ -3,17 +3,40 @@ body {
     margin: 0;
     padding: 20px;
     background-color: #f4f4f4;
-    height: 100vh; /* Full viewport height */
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
 }
 
 .container {
-    max-width: 1200px; /* Set a max-width for larger screens */
-    margin: 0 auto;
+    max-width: 800px;
+    margin: 20px auto;
     text-align: center;
-    height: calc(100vh - 60px); /* Adjust for footer height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center content vertically */
 }
 
 input[type="text"] {
@@ -40,8 +63,6 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    flex-grow: 1; /* Allow images to grow and fill space */
-    margin: 20px 0; /* Space between results and buttons */
 }
 
 .image {
@@ -81,4 +102,21 @@ footer {
     margin-top: 20px;
     text-align: center;
     font-size: 14px;
+    background: #333;
+    color: white;
+    padding: 20px 0;
+}
+
+footer .social-links {
+    margin-top: 10px;
+}
+
+footer .social-links a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+footer .social-links a:hover {
+    text-decoration: underline;
 }
