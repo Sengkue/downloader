@@ -4,76 +4,96 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: #f0f0f0;
+    min-height: 100vh;
 }
 
 header {
-    background-color: #007bff;
-    color: white;
-    width: 100%;
+    background: #f4f4f4;
     padding: 20px;
     text-align: center;
 }
 
-input[type="text"] {
+h1 {
+    margin: 0;
+}
+
+.search-box {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+#search-input {
     padding: 10px;
-    margin: 10px 0;
     width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.clear-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+
+.clear-icon.visible {
+    display: block; /* Shown when input has text */
+}
+
+.clear-icon i {
+    color: #999;
 }
 
 button {
     padding: 10px 15px;
-    margin: 5px;
     border: none;
-    cursor: pointer;
-    background-color: #28a745;
+    background: #007BFF;
     color: white;
-    border-radius: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
 }
 
 button:disabled {
-    background-color: #ccc;
+    background: #ccc;
+    cursor: not-allowed;
 }
 
 .image-results {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 20px 0;
 }
 
 .image {
-    position: relative;
     margin: 10px;
-    overflow: hidden;
+    position: relative;
 }
 
 .image img {
     width: 200px;
-    height: 200px;
+    height: 150px;
     object-fit: cover;
-    transition: transform 0.2s;
-}
-
-.image img:hover {
-    transform: scale(1.1);
 }
 
 .checkbox {
     position: absolute;
     top: 5px;
-    right: 5px;
+    left: 5px;
 }
 
 .pagination {
-    margin: 20px;
+    text-align: center;
 }
 
 footer {
-    margin-top: auto;
-    padding: 20px;
-    background-color: #007bff;
-    color: white;
+    background: #f4f4f4;
+    padding: 10px;
     text-align: center;
-    width: 100%;
+    margin-top: auto;
 }

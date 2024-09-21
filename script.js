@@ -1,31 +1,19 @@
 let currentPage = 1;
 let imagesPerPage = 10;
 
+// Function to update the number of images per page
 document.getElementById("images-per-page").addEventListener("change", (event) => {
     imagesPerPage = parseInt(event.target.value, 10);
     currentPage = 1;
     fetchImages();
 });
 
+// Search button functionality
 document.getElementById("search-button").addEventListener("click", () => {
     fetchImages();
 });
 
-document.getElementById("see-all-button").addEventListener("click", async () => {
-    const query = document.getElementById("search-input").value;
-    const apiKey = '32033819-d1c055cd90058f2879aa55993';
-    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=200`;
-
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        displayImages(data.hits);
-        updatePagination(data.totalHits);
-    } catch (error) {
-        console.error("Error fetching images:", error);
-    }
-});
-
+// Fetch images from Pixabay API
 function fetchImages() {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
@@ -40,6 +28,7 @@ function fetchImages() {
         .catch(error => console.error("Error fetching images:", error));
 }
 
+// Display images in the results area
 function displayImages(images) {
     const imageResults = document.getElementById("image-results");
     imageResults.innerHTML = ""; // Clear previous results
@@ -62,6 +51,7 @@ function displayImages(images) {
         imageResults.appendChild(div);
     });
 
+    // Select all functionality
     const selectAllCheckbox = document.getElementById("select-all");
     selectAllCheckbox.addEventListener("change", (event) => {
         const checkboxes = document.querySelectorAll(".checkbox");
@@ -71,6 +61,7 @@ function displayImages(images) {
     });
 }
 
+// Update pagination info and buttons
 function updatePagination(totalHits) {
     const pageInfo = document.getElementById("page-info");
     const totalPages = Math.ceil(totalHits / imagesPerPage);
@@ -80,6 +71,7 @@ function updatePagination(totalHits) {
     document.getElementById("next-button").disabled = currentPage === totalPages;
 }
 
+// Previous page button functionality
 document.getElementById("prev-button").addEventListener("click", () => {
     if (currentPage > 1) {
         currentPage--;
@@ -87,18 +79,20 @@ document.getElementById("prev-button").addEventListener("click", () => {
     }
 });
 
+// Next page button functionality
 document.getElementById("next-button").addEventListener("click", () => {
     currentPage++;
     fetchImages();
 });
 
-// Download button functionality
+// Download selected images functionality
 document.getElementById("download-button").addEventListener("click", () => {
     const checkboxes = document.querySelectorAll(".checkbox:checked");
     checkboxes.forEach(checkbox => {
         const url = checkbox.value;
-        const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, ''); // Format: YYYY-MM-DD_HH:mm:ss
-        const filename = `bysengkuevang_${dateTime}.jpg`;
+        const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
+        const randomSuffix = Math.floor(Math.random() * 1000); // Add a random number to ensure uniqueness
+        const filename = `bysengkuevang_${dateTime}_${randomSuffix}.jpg`;
 
         fetch(url)
             .then(response => response.blob())
