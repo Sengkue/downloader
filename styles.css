@@ -37,11 +37,11 @@ button:hover {
     background-color: #0056b3;
 }
 
-#media-preview {
+#video-preview-section {
     margin-top: 20px;
 }
 
-img, video {
+video {
     max-width: 100%;
     height: auto;
     margin-bottom: 10px;

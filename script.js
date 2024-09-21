@@ -1,32 +1,24 @@
-document.getElementById("download-btn").addEventListener("click", function () {
-    const mediaUrl = document.getElementById("media-url").value;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Video Downloader</h1>
+        <input type="text" id="video-url" placeholder="Enter Video URL" />
+        <button id="download-btn">Download Video</button>
 
-    // Reset display styles
-    document.getElementById("image-preview").style.display = 'none';
-    document.getElementById("video-preview").style.display = 'none';
-    document.getElementById("media-preview").style.display = 'none';
+        <div id="video-preview-section" style="display: none;">
+            <h3>Video Preview:</h3>
+            <video id="video-preview" controls></video>
+            <a id="download-link" href="#" download="video-file.mp4">Download Video</a>
+        </div>
+    </div>
 
-    // Check if it's an image or video based on file extension
-    const isImage = /\.(jpeg|jpg|gif|png|webp)$/.test(mediaUrl);
-    const isVideo = /\.(mp4|webm|ogg|mov)$/.test(mediaUrl);
-
-    if (isImage) {
-        // Display image
-        document.getElementById("image-preview").src = mediaUrl;
-        document.getElementById("image-preview").style.display = 'block';
-        document.getElementById("download-link").href = mediaUrl;
-        document.getElementById("download-link").setAttribute('download', 'image-file.jpg');  // Change filename as needed
-        document.getElementById("media-preview").style.display = 'block';
-
-    } else if (isVideo) {
-        // Display video
-        document.getElementById("video-preview").src = mediaUrl;
-        document.getElementById("video-preview").style.display = 'block';
-        document.getElementById("download-link").href = mediaUrl;
-        document.getElementById("download-link").setAttribute('download', 'video-file.mp4');  // Change filename as needed
-        document.getElementById("media-preview").style.display = 'block';
-
-    } else {
-        alert("The URL does not seem to be a valid image or video URL.");
-    }
-});
+    <script src="script.js"></script>
+</body>
+</html>
