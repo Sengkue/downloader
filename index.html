@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Thumbnail Downloader</title>
+    <title>Download Video or Image</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>YouTube Thumbnail Downloader</h1>
-        <input type="text" id="youtube-url" placeholder="Enter YouTube Video URL" />
-        <button id="get-thumbnail">Get Thumbnail</button>
-        <div id="thumbnail-section">
-            <h3>Thumbnail Preview:</h3>
-            <img id="thumbnail-img" src="" alt="Thumbnail will appear here" />
-            <a id="download-link" href="#" download="thumbnail.jpg">Download Thumbnail</a>
+        <h1>Media Downloader</h1>
+        <input type="text" id="media-url" placeholder="Enter Video/Image URL" />
+        <button id="download-btn">Download</button>
+
+        <div id="media-preview" style="display: none;">
+            <h3>Preview:</h3>
+            <img id="image-preview" src="" alt="Image Preview" style="display: none;" />
+            <video id="video-preview" controls style="display: none;"></video>
+            <a id="download-link" href="#" download>Download Media</a>
         </div>
     </div>
 
