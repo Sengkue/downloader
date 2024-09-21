@@ -3,12 +3,17 @@ body {
     margin: 0;
     padding: 20px;
     background-color: #f4f4f4;
+    height: 100vh; /* Full viewport height */
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px; /* Set a max-width for larger screens */
     margin: 0 auto;
     text-align: center;
+    height: calc(100vh - 60px); /* Adjust for footer height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
 }
 
 input[type="text"] {
@@ -35,6 +40,8 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    flex-grow: 1; /* Allow images to grow and fill space */
+    margin: 20px 0; /* Space between results and buttons */
 }
 
 .image {
