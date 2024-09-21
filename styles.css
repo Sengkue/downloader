@@ -62,10 +62,15 @@ h1 {
 }
 
 .image img {
-    width: 200px;
-    height: auto;
+    width: 200px; /* Fixed size for all images */
+    height: 200px; /* Fixed size for all images */
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s; /* Smooth hover effect */
+}
+
+.image img:hover {
+    transform: scale(1.1); /* Enlarge on hover */
 }
 
 .checkbox {
@@ -97,7 +102,7 @@ h1 {
     }
 
     .image img {
-        width: 100%; /* Responsive images */
-        max-width: 200px; /* Max width for images */
+        max-width: 100%; /* Responsive images */
+        height: auto; /* Maintain aspect ratio */
     }
 }
