@@ -37,9 +37,9 @@ function displayImages(images) {
         img.src = image.webformatURL;
         img.alt = image.tags;
 
-        // Add double-click event listener to open the image in a new tab
+        // Add double-click event to redirect to the image's page
         img.addEventListener("dblclick", () => {
-            window.open(image.largeImageURL, '_blank'); // Opens the image in a new tab
+            window.open(image.pageURL, "_blank"); // Open the image page in a new tab
         });
 
         const checkbox = document.createElement("input");
