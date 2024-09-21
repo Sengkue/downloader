@@ -11,7 +11,45 @@ document.getElementById("search-button").addEventListener("click", () => {
     fetchImages();
 });
 
-// Function to fetch images from Pixabay API
+document.getElementById("prev-button").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchImages();
+    }
+});
+
+document.getElementById("next-button").addEventListener("click", () => {
+    currentPage++;
+    fetchImages();
+});
+
+document.getElementById("select-all").addEventListener("change", (event) => {
+    const checkboxes = document.querySelectorAll(".checkbox");
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = event.target.checked;
+    });
+});
+
+document.getElementById("download-button").addEventListener("click", () => {
+    const checkboxes = document.querySelectorAll(".checkbox:checked");
+    checkboxes.forEach(checkbox => {
+        const url = checkbox.value;
+        const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
+        const filename = `bysengkuevang_${dateTime}.jpg`;
+
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+                window.URL.revokeObjectURL(link.href);
+            })
+            .catch(err => console.error("Download error:", err));
+    });
+});
+
 function fetchImages() {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
@@ -26,7 +64,6 @@ function fetchImages() {
         .catch(error => console.error("Error fetching images:", error));
 }
 
-// Display images in the UI
 function displayImages(images) {
     const imageResults = document.getElementById("image-results");
     imageResults.innerHTML = ""; // Clear previous results
@@ -39,9 +76,8 @@ function displayImages(images) {
         img.src = image.webformatURL;
         img.alt = image.tags;
 
-        // Add double-click event to show modal
         img.addEventListener("dblclick", () => {
-            openModal(image.largeImageURL, image.tags);
+            openImagePreview(image.largeImageURL);
         });
 
         const checkbox = document.createElement("input");
@@ -53,39 +89,29 @@ function displayImages(images) {
         div.appendChild(checkbox);
         imageResults.appendChild(div);
     });
-
-    const selectAllCheckbox = document.getElementById("select-all");
-    selectAllCheckbox.addEventListener("change", (event) => {
-        const checkboxes = document.querySelectorAll(".checkbox");
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = event.target.checked;
-        });
-    });
 }
 
-// Open modal for larger image view
-function openModal(imageUrl, captionText) {
-    const modal = document.getElementById("image-modal");
-    const modalImage = document.getElementById("modal-image");
-    const caption = document.getElementById("caption");
+function openImagePreview(imageUrl) {
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
 
-    modal.style.display = "block";
-    modalImage.src = imageUrl;
-    caption.innerHTML = captionText;
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.classList.add("modal-content");
 
-    const closeModal = document.getElementById("close-modal");
-    closeModal.onclick = function() {
-        modal.style.display = "none";
-    }
+    const closeButton = document.createElement("span");
+    closeButton.innerHTML = "&times;";
+    closeButton.classList.add("close");
 
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
+    closeButton.onclick = () => {
+        document.body.removeChild(modal);
+    };
+
+    modal.appendChild(closeButton);
+    modal.appendChild(img);
+    document.body.appendChild(modal);
 }
 
-// Pagination and navigation
 function updatePagination(totalHits) {
     const pageInfo = document.getElementById("page-info");
     const totalPages = Math.ceil(totalHits / imagesPerPage);
@@ -94,33 +120,3 @@ function updatePagination(totalHits) {
     document.getElementById("prev-button").disabled = currentPage === 1;
     document.getElementById("next-button").disabled = currentPage === totalPages;
 }
-
-document.getElementById("prev-button").addEventListener("click", () => {
-    if (currentPage > 1) {
-        currentPage--;
-        fetchImages();
-    }
-});
-
-document.getElementById("next-button").addEventListener("click", () => {
-    currentPage++;
-    fetchImages();
-});
-
-// Download button functionality
-document.getElementById("download-button").addEventListener("click", () => {
-    const selectedImages = Array.from(document.querySelectorAll(".checkbox:checked"));
-    selectedImages.forEach(checkbox => {
-        const link = document.createElement('a');
-        link.href = checkbox.value;
-        link.download = ''; // The image will be downloaded with its original name
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-});
-
-// Clear input functionality
-document.getElementById("clear-icon").addEventListener("click", () => {
-    document.getElementById("search-input").value = '';
-});
