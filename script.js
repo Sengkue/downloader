@@ -14,7 +14,7 @@ document.getElementById("search-button").addEventListener("click", () => {
 document.getElementById("see-all-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
-    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=500`;
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=200`;
 
     try {
         const response = await fetch(url);
