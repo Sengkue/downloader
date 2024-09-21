@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.media-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.media-item {
+    margin: 20px;
+}
