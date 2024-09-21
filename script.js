@@ -8,6 +8,26 @@ document.getElementById("images-per-page").addEventListener("change", (event) =>
     fetchImages();
 });
 
+// Trigger search when pressing the Enter key
+document.getElementById("search-input").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        fetchImages();
+    }
+});
+
+// Show the clear icon when typing, and clear input on icon click
+const searchInput = document.getElementById("search-input");
+const clearIcon = document.getElementById("clear-icon");
+
+searchInput.addEventListener("input", () => {
+    clearIcon.classList.toggle("visible", searchInput.value.length > 0);
+});
+
+clearIcon.addEventListener("click", () => {
+    searchInput.value = "";
+    clearIcon.classList.remove("visible");
+});
+
 // Search button functionality
 document.getElementById("search-button").addEventListener("click", () => {
     fetchImages();
