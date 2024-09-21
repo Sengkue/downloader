@@ -1,4 +1,4 @@
-const API_KEY = '32033819-d1c055cd90058f2879aa55993'; // Replace with your Pixabay API Key
+const API_KEY = 'YOUR_PIXABAY_API_KEY'; // Replace with your Pixabay API Key
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const imageResults = document.getElementById('image-results');
@@ -25,26 +25,29 @@ function displayImages(images) {
         imageResults.innerHTML = '<p>No images found.</p>';
         return;
     }
-
+    
     images.forEach(image => {
         const div = document.createElement('div');
-        div.classList.add('link');
+        div.classList.add('image');
         div.innerHTML = `
             <input type="checkbox" class="checkbox" value="${image.largeImageURL}">
-            <a href="${image.largeImageURL}" download>${image.tags || 'Download Image'}</a>
+            <img src="${image.previewURL}" alt="${image.tags}">
         `;
         imageResults.appendChild(div);
     });
 }
 
-downloadButton.addEventListener('click', () => {
+downloadButton.addEventListener('click', async () => {
     const checkboxes = document.querySelectorAll('.checkbox:checked');
-    checkboxes.forEach(checkbox => {
+    for (const checkbox of checkboxes) {
+        const url = checkbox.value;
+        const response = await fetch(url);
+        const blob = await response.blob();
         const link = document.createElement('a');
-        link.href = checkbox.value;
-        link.download = '';
+        link.href = URL.createObjectURL(blob);
+        link.download = url.substring(url.lastIndexOf('/') + 1); // Get the file name from the URL
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    });
+    }
 });
