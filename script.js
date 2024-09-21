@@ -1,5 +1,5 @@
 let currentPage = 1;
-const imagesPerPage = 10;
+const imagesPerPage = 9;
 
 document.getElementById("search-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
