@@ -1,55 +1,39 @@
 let currentPage = 1;
 let imagesPerPage = 10;
 
+// Function to update the number of images per page
 document.getElementById("images-per-page").addEventListener("change", (event) => {
     imagesPerPage = parseInt(event.target.value, 10);
     currentPage = 1;
     fetchImages();
 });
 
-document.getElementById("search-button").addEventListener("click", () => {
-    fetchImages();
-});
-
-document.getElementById("prev-button").addEventListener("click", () => {
-    if (currentPage > 1) {
-        currentPage--;
+// Trigger search when pressing the Enter key
+document.getElementById("search-input").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
         fetchImages();
     }
 });
 
-document.getElementById("next-button").addEventListener("click", () => {
-    currentPage++;
+// Show the clear icon when typing, and clear input on icon click
+const searchInput = document.getElementById("search-input");
+const clearIcon = document.getElementById("clear-icon");
+
+searchInput.addEventListener("input", () => {
+    clearIcon.classList.toggle("visible", searchInput.value.length > 0);
+});
+
+clearIcon.addEventListener("click", () => {
+    searchInput.value = "";
+    clearIcon.classList.remove("visible");
+});
+
+// Search button functionality
+document.getElementById("search-button").addEventListener("click", () => {
     fetchImages();
 });
 
-document.getElementById("select-all").addEventListener("change", (event) => {
-    const checkboxes = document.querySelectorAll(".checkbox");
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = event.target.checked;
-    });
-});
-
-document.getElementById("download-button").addEventListener("click", () => {
-    const checkboxes = document.querySelectorAll(".checkbox:checked");
-    checkboxes.forEach(checkbox => {
-        const url = checkbox.value;
-        const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
-        const filename = `bysengkuevang_${dateTime}.jpg`;
-
-        fetch(url)
-            .then(response => response.blob())
-            .then(blob => {
-                const link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = filename;
-                link.click();
-                window.URL.revokeObjectURL(link.href);
-            })
-            .catch(err => console.error("Download error:", err));
-    });
-});
-
+// Fetch images from Pixabay API
 function fetchImages() {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
@@ -64,6 +48,7 @@ function fetchImages() {
         .catch(error => console.error("Error fetching images:", error));
 }
 
+// Display images in the results area
 function displayImages(images) {
     const imageResults = document.getElementById("image-results");
     imageResults.innerHTML = ""; // Clear previous results
@@ -76,10 +61,6 @@ function displayImages(images) {
         img.src = image.webformatURL;
         img.alt = image.tags;
 
-        img.addEventListener("dblclick", () => {
-            openImagePreview(image.largeImageURL);
-        });
-
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.classList.add("checkbox");
@@ -89,29 +70,18 @@ function displayImages(images) {
         div.appendChild(checkbox);
         imageResults.appendChild(div);
     });
+
+    // Select all functionality
+    const selectAllCheckbox = document.getElementById("select-all");
+    selectAllCheckbox.addEventListener("change", (event) => {
+        const checkboxes = document.querySelectorAll(".checkbox");
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = event.target.checked;
+        });
+    });
 }
 
-function openImagePreview(imageUrl) {
-    const modal = document.createElement("div");
-    modal.classList.add("modal");
-
-    const img = document.createElement("img");
-    img.src = imageUrl;
-    img.classList.add("modal-content");
-
-    const closeButton = document.createElement("span");
-    closeButton.innerHTML = "&times;";
-    closeButton.classList.add("close");
-
-    closeButton.onclick = () => {
-        document.body.removeChild(modal);
-    };
-
-    modal.appendChild(closeButton);
-    modal.appendChild(img);
-    document.body.appendChild(modal);
-}
-
+// Update pagination info and buttons
 function updatePagination(totalHits) {
     const pageInfo = document.getElementById("page-info");
     const totalPages = Math.ceil(totalHits / imagesPerPage);
@@ -120,3 +90,39 @@ function updatePagination(totalHits) {
     document.getElementById("prev-button").disabled = currentPage === 1;
     document.getElementById("next-button").disabled = currentPage === totalPages;
 }
+
+// Previous page button functionality
+document.getElementById("prev-button").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchImages();
+    }
+});
+
+// Next page button functionality
+document.getElementById("next-button").addEventListener("click", () => {
+    currentPage++;
+    fetchImages();
+});
+
+// Download selected images functionality
+document.getElementById("download-button").addEventListener("click", () => {
+    const checkboxes = document.querySelectorAll(".checkbox:checked");
+    checkboxes.forEach(checkbox => {
+        const url = checkbox.value;
+        const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
+        const randomSuffix = Math.floor(Math.random() * 1000); // Add a random number to ensure uniqueness
+        const filename = `bysengkuevang_${dateTime}_${randomSuffix}.jpg`;
+
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+                window.URL.revokeObjectURL(link.href); // Clean up
+            })
+            .catch(err => console.error("Download error:", err));
+    });
+});
