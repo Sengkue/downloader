@@ -1,55 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="icon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- Include Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Include Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <title>Image Search App</title>
-</head>
-<body>
+    <style>
+      @keyframes flash {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+      }
+
+      h1 {
+        animation: flash 1s infinite;
+        color: #ff6347; /* Change to any color you prefer */
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
     <header>
-        <h1>Image Search</h1>
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Search for images..." />
-            <span id="clear-icon" class="clear-icon"><i class="fas fa-times"></i></span>
-        </div>
-        <button id="search-button">
-            <i class="fas fa-search"></i> Search
-        </button>
-        <select id="images-per-page">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-            <option value="200">200</option>
-        </select>
+      <h1>Image Search</h1>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search for images..." />
+        <span id="clear-icon" class="clear-icon"><i class="fas fa-times"></i></span>
+      </div>
+      <button id="search-button">
+        <i class="fas fa-search"></i> Search
+      </button>
+      <select id="images-per-page">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="200">200</option>
+      </select>
     </header>
     <main>
-        <div id="image-results" class="image-results"></div>
-        <div class="pagination">
-            <button id="prev-button" disabled>
-                <i class="fas fa-arrow-left"></i> Previous
-            </button>
-            <span id="page-info"></span>
-            <button id="next-button">
-                <i class="fas fa-arrow-right"></i> Next
-            </button>
-        </div>
-        <div>
-            <input type="checkbox" id="select-all" /> Select All
-            <button id="download-button">
-                <i class="fas fa-download"></i> Download Selected
-            </button>
-        </div>
+      <div id="image-results" class="image-results"></div>
+      <div class="pagination">
+        <button id="prev-button" disabled>
+          <i class="fas fa-arrow-left"></i> Previous
+        </button>
+        <span id="page-info"></span>
+        <button id="next-button">
+          <i class="fas fa-arrow-right"></i> Next
+        </button>
+      </div>
+      <div>
+        <input type="checkbox" id="select-all" /> Select All
+        <button id="download-button">
+          <i class="fas fa-download"></i> Download Selected
+        </button>
+      </div>
     </main>
     <footer>
-        <p class="footer">© sengkuevang | Images from <a href="https://pixabay.com" target="_blank">Pixabay</a></p>
+      <p class="footer">© sengkuevang | Images from <a href="https://pixabay.com" target="_blank">Pixabay</a></p>
     </footer>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
