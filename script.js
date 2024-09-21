@@ -1,53 +1,54 @@
-const API_KEY = '32033819-d1c055cd90058f2879aa55993'; // Replace with your Pixabay API Key
+const API_KEY = '32033819-d1c055cd90058f2879aa55993'; // Replace with your actual API key
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const imageResults = document.getElementById('image-results');
 const downloadButton = document.getElementById('download-button');
 
 searchButton.addEventListener('click', async () => {
-    const query = searchInput.value;
-    try {
-        const response = await fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&per_page=20`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        displayImages(data.hits);
-    } catch (error) {
-        console.error("Error fetching images:", error);
-        imageResults.innerHTML = '<p>Could not fetch images. Please try again.</p>';
-    }
+    const query = encodeURIComponent(searchInput.value);
+    const response = await fetch(`https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo`);
+    const data = await response.json();
+    displayImages(data.hits);
 });
 
 function displayImages(images) {
     imageResults.innerHTML = '';
-    if (!images || images.length === 0) {
-        imageResults.innerHTML = '<p>No images found.</p>';
-        return;
-    }
-    
     images.forEach(image => {
         const div = document.createElement('div');
         div.classList.add('image');
-        div.innerHTML = `
-            <input type="checkbox" class="checkbox" value="${image.largeImageURL}">
-            <img src="${image.previewURL}" alt="${image.tags}">
-        `;
+
+        const img = document.createElement('img');
+        img.src = image.webformatURL;
+        img.alt = image.tags;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = image.largeImageURL;
+        checkbox.classList.add('checkbox');
+
+        div.appendChild(img);
+        div.appendChild(checkbox);
         imageResults.appendChild(div);
     });
 }
 
-downloadButton.addEventListener('click', async () => {
+downloadButton.addEventListener('click', () => {
     const checkboxes = document.querySelectorAll('.checkbox:checked');
-    for (const checkbox of checkboxes) {
-        const url = checkbox.value;
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = url.substring(url.lastIndexOf('/') + 1); // Get the file name from the URL
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
+    checkboxes.forEach(checkbox => {
+        const imageUrl = checkbox.value;
+        const imageId = checkbox.value.split('/').pop().split('_')[0]; // Get a short name from the URL
+        const filename = `image_${imageId}.jpg`; // Create a shorter filename
+
+        fetch(imageUrl)
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename; // Set the custom filename
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            });
+    });
 });
