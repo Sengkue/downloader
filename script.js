@@ -111,7 +111,7 @@ document.getElementById("download-button").addEventListener("click", () => {
     checkboxes.forEach(checkbox => {
         const url = checkbox.value;
         const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, '');
-        const randomSuffix = Math.floor(Math.random() * 1000);
+        const randomSuffix = Math.floor(Math.random() * 1000000);
         const filename = `sengkuevang_${dateTime}_${randomSuffix}.jpg`;
 
         fetch(url)
