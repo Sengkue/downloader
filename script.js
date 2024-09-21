@@ -11,7 +11,17 @@ document.getElementById("search-button").addEventListener("click", () => {
     fetchImages();
 });
 
-// Function to fetch images from Pixabay API
+// Enter key functionality
+document.getElementById("search-input").addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        fetchImages();
+    }
+});
+
+document.getElementById("clear-icon").addEventListener("click", () => {
+    document.getElementById("search-input").value = '';
+});
+
 function fetchImages() {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
@@ -26,7 +36,6 @@ function fetchImages() {
         .catch(error => console.error("Error fetching images:", error));
 }
 
-// Display images in the UI
 function displayImages(images) {
     const imageResults = document.getElementById("image-results");
     imageResults.innerHTML = ""; // Clear previous results
@@ -39,15 +48,20 @@ function displayImages(images) {
         img.src = image.webformatURL;
         img.alt = image.tags;
 
-        // Add double-click event to show modal
-        img.addEventListener("dblclick", () => {
-            openModal(image.largeImageURL, image.tags);
-        });
-
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.classList.add("checkbox");
         checkbox.value = image.largeImageURL;
+
+        // Add double-click event for image preview
+        img.addEventListener("dblclick", () => {
+            const modal = document.getElementById("image-modal");
+            const modalImg = document.getElementById("modal-image");
+            const caption = document.getElementById("caption");
+            modal.style.display = "block";
+            modalImg.src = image.largeImageURL;
+            caption.textContent = image.tags;
+        });
 
         div.appendChild(img);
         div.appendChild(checkbox);
@@ -63,29 +77,19 @@ function displayImages(images) {
     });
 }
 
-// Open modal for larger image view
-function openModal(imageUrl, captionText) {
+// Modal close functionality
+document.getElementById("modal-close").addEventListener("click", () => {
+    document.getElementById("image-modal").style.display = "none";
+});
+
+// Close modal when clicking outside of it
+window.addEventListener("click", (event) => {
     const modal = document.getElementById("image-modal");
-    const modalImage = document.getElementById("modal-image");
-    const caption = document.getElementById("caption");
-
-    modal.style.display = "block";
-    modalImage.src = imageUrl;
-    caption.innerHTML = captionText;
-
-    const closeModal = document.getElementById("close-modal");
-    closeModal.onclick = function() {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
+});
 
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    }
-}
-
-// Pagination and navigation
 function updatePagination(totalHits) {
     const pageInfo = document.getElementById("page-info");
     const totalPages = Math.ceil(totalHits / imagesPerPage);
@@ -109,18 +113,21 @@ document.getElementById("next-button").addEventListener("click", () => {
 
 // Download button functionality
 document.getElementById("download-button").addEventListener("click", () => {
-    const selectedImages = Array.from(document.querySelectorAll(".checkbox:checked"));
-    selectedImages.forEach(checkbox => {
-        const link = document.createElement('a');
-        link.href = checkbox.value;
-        link.download = ''; // The image will be downloaded with its original name
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-});
+    const checkboxes = document.querySelectorAll(".checkbox:checked");
+    checkboxes.forEach(checkbox => {
+        const url = checkbox.value;
+        const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, ''); // Format: YYYY-MM-DD_HH:mm:ss
+        const filename = `bysengkuevang_${dateTime}.jpg`;
 
-// Clear input functionality
-document.getElementById("clear-icon").addEventListener("click", () => {
-    document.getElementById("search-input").value = '';
+        fetch(url)
+            .then(response => response.blob())
+            .then(blob => {
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+                window.URL.revokeObjectURL(link.href); // Clean up
+            })
+            .catch(err => console.error("Download error:", err));
+    });
 });
