@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Downloader</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Video Downloader</h1>
-        <input type="text" id="video-url" placeholder="Enter Video URL" />
-        <button id="download-btn">Download Video</button>
+document.getElementById("download-btn").addEventListener("click", function () {
+    const videoUrl = document.getElementById("video-url").value;
 
-        <div id="video-preview-section" style="display: none;">
-            <h3>Video Preview:</h3>
-            <video id="video-preview" controls></video>
-            <a id="download-link" href="#" download="video-file.mp4">Download Video</a>
-        </div>
-    </div>
+    // Reset display styles
+    document.getElementById("video-preview").style.display = 'none';
+    document.getElementById("video-preview-section").style.display = 'none';
 
-    <script src="script.js"></script>
-</body>
-</html>
+    // Check if the URL is a valid video URL based on file extension
+    const isVideo = /\.(mp4|webm|ogg|mov)$/.test(videoUrl);
+
+    if (isVideo) {
+        // Display video
+        document.getElementById("video-preview").src = videoUrl;
+        document.getElementById("video-preview").style.display = 'block';
+        document.getElementById("download-link").href = videoUrl;
+        document.getElementById("download-link").setAttribute('download', 'video-file.mp4');  // Change filename as needed
+        document.getElementById("video-preview-section").style.display = 'block';
+
+    } else {
+        alert("Please enter a valid video URL (e.g., .mp4, .webm, .ogg, .mov)");
+    }
+});
