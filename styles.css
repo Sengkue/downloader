@@ -1,37 +1,42 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
+header {
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    padding: 20px;
     text-align: center;
 }
 
 input[type="text"] {
     padding: 10px;
-    width: 70%;
-    margin-bottom: 10px;
+    margin: 10px 0;
+    width: 300px;
 }
 
 button {
     padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     margin: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
 }
 
-button:hover {
-    background-color: #45a049;
+button:disabled {
+    background-color: #ccc;
 }
 
-#image-results {
+.image-results {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -40,38 +45,35 @@ button:hover {
 .image {
     position: relative;
     margin: 10px;
+    overflow: hidden;
 }
 
 .image img {
     width: 200px;
     height: 200px;
     object-fit: cover;
-    border-radius: 8px;
-    transition: transform 0.3s;
+    transition: transform 0.2s;
 }
 
 .image img:hover {
     transform: scale(1.1);
 }
 
-#pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
+.checkbox {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
-#pagination button {
-    padding: 10px 20px;
-}
-
-#pagination span {
-    font-size: 16px;
-    margin: 0 10px;
+.pagination {
+    margin: 20px;
 }
 
 footer {
-    margin-top: 20px;
+    margin-top: auto;
+    padding: 20px;
+    background-color: #007bff;
+    color: white;
     text-align: center;
-    font-size: 14px;
+    width: 100%;
 }
