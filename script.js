@@ -1,24 +1,38 @@
 let currentPage = 1;
 const imagesPerPage = 10;
-let totalHits = 0;
-let totalPages = 0;
 
-document.getElementById("search-button").addEventListener("click", async () => {
+document.getElementById("search-button").addEventListener("click", () => {
+    fetchImages();
+});
+
+document.getElementById("see-all-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
-    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${imagesPerPage}&page=${currentPage}`;
-    
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();
         displayImages(data.hits);
-        totalHits = data.totalHits;
-        totalPages = Math.ceil(totalHits / imagesPerPage);
-        updatePagination();
+        updatePagination(data.totalHits);
     } catch (error) {
         console.error("Error fetching images:", error);
     }
 });
+
+function fetchImages() {
+    const query = document.getElementById("search-input").value;
+    const apiKey = '32033819-d1c055cd90058f2879aa55993';
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${imagesPerPage}&page=${currentPage}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displayImages(data.hits);
+            updatePagination(data.totalHits);
+        })
+        .catch(error => console.error("Error fetching images:", error));
+}
 
 function displayImages(images) {
     const imageResults = document.getElementById("image-results");
@@ -42,6 +56,7 @@ function displayImages(images) {
         imageResults.appendChild(div);
     });
 
+    // Add event listener for select all checkbox
     const selectAllCheckbox = document.getElementById("select-all");
     selectAllCheckbox.addEventListener("change", (event) => {
         const checkboxes = document.querySelectorAll(".checkbox");
@@ -51,8 +66,10 @@ function displayImages(images) {
     });
 }
 
-function updatePagination() {
+function updatePagination(totalHits) {
     const pageInfo = document.getElementById("page-info");
+    const totalPages = Math.ceil(totalHits / imagesPerPage);
+
     pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
 
     document.getElementById("prev-button").disabled = currentPage === 1;
@@ -67,27 +84,9 @@ document.getElementById("prev-button").addEventListener("click", () => {
 });
 
 document.getElementById("next-button").addEventListener("click", () => {
-    if (currentPage < totalPages) {
-        currentPage++;
-        fetchImages();
-    }
+    currentPage++;
+    fetchImages();
 });
-
-function fetchImages() {
-    const query = document.getElementById("search-input").value;
-    const apiKey = '32033819-d1c055cd90058f2879aa55993';
-    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${imagesPerPage}&page=${currentPage}`;
-    
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            displayImages(data.hits);
-            totalHits = data.totalHits;
-            totalPages = Math.ceil(totalHits / imagesPerPage);
-            updatePagination();
-        })
-        .catch(error => console.error("Error fetching images:", error));
-}
 
 // Download button functionality
 document.getElementById("download-button").addEventListener("click", () => {
