@@ -1,12 +1,16 @@
+let currentPage = 1;
+const imagesPerPage = 10;
+
 document.getElementById("search-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
-    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo`;
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${imagesPerPage}&page=${currentPage}`;
     
     try {
         const response = await fetch(url);
         const data = await response.json();
         displayImages(data.hits);
+        updatePagination(data.totalHits);
     } catch (error) {
         console.error("Error fetching images:", error);
     }
@@ -35,13 +39,50 @@ function displayImages(images) {
     });
 }
 
+function updatePagination(totalHits) {
+    const pageInfo = document.getElementById("page-info");
+    const totalPages = Math.ceil(totalHits / imagesPerPage);
+
+    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+    document.getElementById("prev-button").disabled = currentPage === 1;
+    document.getElementById("next-button").disabled = currentPage === totalPages;
+}
+
+document.getElementById("prev-button").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchImages();
+    }
+});
+
+document.getElementById("next-button").addEventListener("click", () => {
+    currentPage++;
+    fetchImages();
+});
+
+function fetchImages() {
+    const query = document.getElementById("search-input").value;
+    const apiKey = '32033819-d1c055cd90058f2879aa55993';
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=${imagesPerPage}&page=${currentPage}`;
+    
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            displayImages(data.hits);
+            updatePagination(data.totalHits);
+        })
+        .catch(error => console.error("Error fetching images:", error));
+}
+
+// Download button functionality
 document.getElementById("download-button").addEventListener("click", () => {
     const checkboxes = document.querySelectorAll(".checkbox:checked");
     checkboxes.forEach(checkbox => {
         const url = checkbox.value;
         const dateTime = new Date().toISOString().replace(/T/, '_').replace(/\..+/, ''); // Format: YYYY-MM-DD_HH:mm:ss
         const filename = `bysengkuevang_${dateTime}.jpg`;
-        
+
         fetch(url)
             .then(response => response.blob())
             .then(blob => {
