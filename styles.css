@@ -1,15 +1,14 @@
+/* Global Styles */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif; /* Google Font */
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: #f0f4f8;
+    background-color: #f8f9fa; /* Light background */
+    color: #333;
 }
 
 header {
-    background: #007BFF;
+    background-color: #007BFF; /* Header color */
     color: white;
     padding: 20px;
     text-align: center;
@@ -17,21 +16,21 @@ header {
 
 h1 {
     margin: 0;
-    font-weight: 500;
+    font-size: 2.5rem;
 }
 
+/* Search Box Styles */
 .search-box {
     position: relative;
     display: inline-block;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 #search-input {
     padding: 10px;
-    width: 300px;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    outline: none;
+    width: 300px; /* Adjust width as needed */
 }
 
 .clear-icon {
@@ -40,74 +39,99 @@ h1 {
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    display: none; /* Hidden by default */
+    color: #999;
 }
 
-.clear-icon.visible {
-    display: block; /* Shown when input has text */
-}
-
+/* Button Styles */
 button {
     padding: 10px 15px;
     border: none;
-    background: #28a745;
-    color: white;
     border-radius: 5px;
+    background-color: #28a745; /* Green background */
+    color: white;
     cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
+    margin: 5px;
 }
 
 button:hover {
-    background: #218838;
+    background-color: #218838; /* Darker green on hover */
 }
 
-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
-
-.image-results {
+.pagination {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     margin: 20px 0;
 }
 
-.image {
-    margin: 10px;
-    position: relative;
-    transition: transform 0.3s;
+/* Image Results Styles */
+.image-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.image:hover {
-    transform: scale(1.05);
+.image {
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .image img {
-    width: 200px;
-    height: 150px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    object-fit: cover;
+    width: 100%;
+    height: auto; /* Maintains aspect ratio */
 }
 
-.checkbox {
-    position: absolute;
-    top: 5px;
-    left: 5px;
+/* Dropdown Styles */
+label {
+    font-weight: 500;
+    margin-right: 10px;
+    color: #333;
 }
 
-.pagination {
-    text-align: center;
-    margin: 20px 0;
-}
-
-footer {
-    background: #007BFF;
-    color: white;
+#images-per-page {
     padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    appearance: none; /* Removes default styling */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    transition: border-color 0.3s ease;
+}
+
+#images-per-page:focus {
+    border-color: #007BFF; /* Highlight on focus */
+    outline: none;
+}
+
+/* Footer Styles */
+footer {
     text-align: center;
-    margin-top: auto;
+    padding: 10px;
+    background-color: #007BFF; /* Footer color */
+    color: white;
     position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    header {
+        font-size: 1.5rem;
+    }
+
+    #search-input {
+        width: 100%; /* Full width on small screens */
+    }
 }
