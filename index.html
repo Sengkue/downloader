@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download Video or Image</title>
+    <title>Video Downloader</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Media Downloader</h1>
-        <input type="text" id="media-url" placeholder="Enter Video/Image URL" />
-        <button id="download-btn">Download</button>
+        <h1>Video Downloader</h1>
+        <input type="text" id="video-url" placeholder="Enter Video URL" />
+        <button id="download-btn">Download Video</button>
 
-        <div id="media-preview" style="display: none;">
-            <h3>Preview:</h3>
-            <img id="image-preview" src="" alt="Image Preview" style="display: none;" />
-            <video id="video-preview" controls style="display: none;"></video>
-            <a id="download-link" href="#" download>Download Media</a>
+        <div id="video-preview-section" style="display: none;">
+            <h3>Video Preview:</h3>
+            <video id="video-preview" controls></video>
+            <a id="download-link" href="#" download="video-file.mp4">Download Video</a>
         </div>
     </div>
 
