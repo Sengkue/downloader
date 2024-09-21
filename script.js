@@ -8,7 +8,7 @@ document.getElementById("search-button").addEventListener("click", () => {
 document.getElementById("see-all-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
     const apiKey = '32033819-d1c055cd90058f2879aa55993';
-    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo`;
+    const url = `https://pixabay.com/api/?key=${apiKey}&q=${encodeURIComponent(query)}&image_type=photo&per_page=200`;
 
     try {
         const response = await fetch(url);
@@ -56,7 +56,6 @@ function displayImages(images) {
         imageResults.appendChild(div);
     });
 
-    // Add event listener for select all checkbox
     const selectAllCheckbox = document.getElementById("select-all");
     selectAllCheckbox.addEventListener("change", (event) => {
         const checkboxes = document.querySelectorAll(".checkbox");
@@ -71,7 +70,6 @@ function updatePagination(totalHits) {
     const totalPages = Math.ceil(totalHits / imagesPerPage);
 
     pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-
     document.getElementById("prev-button").disabled = currentPage === 1;
     document.getElementById("next-button").disabled = currentPage === totalPages;
 }
