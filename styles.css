@@ -37,15 +37,13 @@ button:hover {
     background-color: #0056b3;
 }
 
-#thumbnail-section {
+#media-preview {
     margin-top: 20px;
-    display: none;
 }
 
-img {
+img, video {
     max-width: 100%;
     height: auto;
-    border: 1px solid #ccc;
     margin-bottom: 10px;
 }
 

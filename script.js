@@ -1,19 +1,32 @@
-document.getElementById("get-thumbnail").addEventListener("click", function () {
-    const youtubeUrl = document.getElementById("youtube-url").value;
-    const videoId = extractVideoId(youtubeUrl);
+document.getElementById("download-btn").addEventListener("click", function () {
+    const mediaUrl = document.getElementById("media-url").value;
 
-    if (videoId) {
-        const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-        document.getElementById("thumbnail-img").src = thumbnailUrl;
-        document.getElementById("download-link").href = thumbnailUrl;
-        document.getElementById("thumbnail-section").style.display = 'block';
+    // Reset display styles
+    document.getElementById("image-preview").style.display = 'none';
+    document.getElementById("video-preview").style.display = 'none';
+    document.getElementById("media-preview").style.display = 'none';
+
+    // Check if it's an image or video based on file extension
+    const isImage = /\.(jpeg|jpg|gif|png|webp)$/.test(mediaUrl);
+    const isVideo = /\.(mp4|webm|ogg|mov)$/.test(mediaUrl);
+
+    if (isImage) {
+        // Display image
+        document.getElementById("image-preview").src = mediaUrl;
+        document.getElementById("image-preview").style.display = 'block';
+        document.getElementById("download-link").href = mediaUrl;
+        document.getElementById("download-link").setAttribute('download', 'image-file.jpg');  // Change filename as needed
+        document.getElementById("media-preview").style.display = 'block';
+
+    } else if (isVideo) {
+        // Display video
+        document.getElementById("video-preview").src = mediaUrl;
+        document.getElementById("video-preview").style.display = 'block';
+        document.getElementById("download-link").href = mediaUrl;
+        document.getElementById("download-link").setAttribute('download', 'video-file.mp4');  // Change filename as needed
+        document.getElementById("media-preview").style.display = 'block';
+
     } else {
-        alert("Invalid YouTube URL. Please enter a valid one.");
+        alert("The URL does not seem to be a valid image or video URL.");
     }
 });
-
-function extractVideoId(url) {
-    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const matches = url.match(regex);
-    return matches ? matches[1] : null;
-}
