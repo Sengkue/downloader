@@ -1,4 +1,4 @@
-const API_KEY = 'YOUR_PIXABAY_API_KEY'; // Replace with your Pixabay API Key
+const API_KEY = '32033819-d1c055cd90058f2879aa55993'; // Replace with your Pixabay API Key
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 const imageResults = document.getElementById('image-results');
