@@ -1,22 +1,37 @@
-document.getElementById("download-btn").addEventListener("click", function () {
-    const videoUrl = document.getElementById("video-url").value;
+const API_KEY = 'YOUR_UNSPLASH_API_KEY'; // Replace with your Unsplash API Key
+const searchButton = document.getElementById('search-button');
+const searchInput = document.getElementById('search-input');
+const imageResults = document.getElementById('image-results');
+const downloadButton = document.getElementById('download-button');
 
-    // Reset display styles
-    document.getElementById("video-preview").style.display = 'none';
-    document.getElementById("video-preview-section").style.display = 'none';
+searchButton.addEventListener('click', async () => {
+    const query = searchInput.value;
+    const response = await fetch(`https://api.unsplash.com/search/photos?query=${query}&client_id=${API_KEY}`);
+    const data = await response.json();
+    displayImages(data.results);
+});
 
-    // Check if the URL is a valid video URL based on file extension
-    const isVideo = /\.(mp4|webm|ogg|mov)$/.test(videoUrl);
+function displayImages(images) {
+    imageResults.innerHTML = '';
+    images.forEach(image => {
+        const div = document.createElement('div');
+        div.classList.add('image');
+        div.innerHTML = `
+            <input type="checkbox" class="checkbox" value="${image.urls.regular}">
+            <img src="${image.urls.thumb}" alt="${image.description || 'Image'}">
+        `;
+        imageResults.appendChild(div);
+    });
+}
 
-    if (isVideo) {
-        // Display video
-        document.getElementById("video-preview").src = videoUrl;
-        document.getElementById("video-preview").style.display = 'block';
-        document.getElementById("download-link").href = videoUrl;
-        document.getElementById("download-link").setAttribute('download', 'video-file.mp4');  // Change filename as needed
-        document.getElementById("video-preview-section").style.display = 'block';
-
-    } else {
-        alert("Please enter a valid video URL (e.g., .mp4, .webm, .ogg, .mov)");
-    }
+downloadButton.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('.checkbox:checked');
+    checkboxes.forEach(checkbox => {
+        const link = document.createElement('a');
+        link.href = checkbox.value;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
 });
