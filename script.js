@@ -1,5 +1,5 @@
 let currentPage = 1;
-const imagesPerPage = 9;
+const imagesPerPage = 10;
 
 document.getElementById("search-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
@@ -36,6 +36,15 @@ function displayImages(images) {
         div.appendChild(img);
         div.appendChild(checkbox);
         imageResults.appendChild(div);
+    });
+
+    // Add event listener for select all checkbox
+    const selectAllCheckbox = document.getElementById("select-all");
+    selectAllCheckbox.addEventListener("change", (event) => {
+        const checkboxes = document.querySelectorAll(".checkbox");
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = event.target.checked;
+        });
     });
 }
 
