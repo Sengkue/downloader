@@ -1,43 +1,60 @@
-document.getElementById('download-button').addEventListener('click', () => {
-    const url = document.getElementById('media-url').value;
-    const mediaPreview = document.getElementById('media-preview');
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
 
-    // Clear previous previews
-    mediaPreview.innerHTML = '';
+.container {
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
 
-    // Create a link element for downloading
-    const downloadLink = document.createElement('a');
-    downloadLink.href = url;
-    downloadLink.download = url.split('/').pop(); // Set the filename from the URL
+input {
+    padding: 10px;
+    width: 80%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-    // Check if the URL is an image or video
-    const extension = url.split('.').pop().toLowerCase();
-    
-    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
-        // It's an image
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = 'Image Preview';
-        img.style.maxWidth = '300px'; // Limit image size
-        mediaPreview.appendChild(img);
-        mediaPreview.appendChild(downloadLink);
-        downloadLink.innerText = 'Download Image';
-    } else if (['mp4', 'webm', 'ogg'].includes(extension)) {
-        // It's a video
-        const video = document.createElement('video');
-        video.controls = true;
-        video.width = 300;
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-        const source = document.createElement('source');
-        source.src = url;
-        source.type = `video/${extension}`;
-        video.appendChild(source);
-        
-        mediaPreview.appendChild(video);
-        mediaPreview.appendChild(downloadLink);
-        downloadLink.innerText = 'Download Video';
-    } else {
-        mediaPreview.innerHTML = 'Unsupported media type. Please provide a direct image or video URL.';
-        return;
-    }
-});
+button:hover {
+    background-color: #0056b3;
+}
+
+#thumbnail-section {
+    margin-top: 20px;
+    display: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
