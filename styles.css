@@ -4,12 +4,16 @@ body {
     padding: 20px;
 }
 
-.media-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+input {
+    width: 300px;
+    padding: 10px;
+    margin-right: 10px;
 }
 
-.media-item {
-    margin: 20px;
+button {
+    padding: 10px 15px;
+}
+
+.media-preview {
+    margin-top: 20px;
 }
