@@ -25,13 +25,13 @@ function displayImages(images) {
         imageResults.innerHTML = '<p>No images found.</p>';
         return;
     }
-    
+
     images.forEach(image => {
         const div = document.createElement('div');
-        div.classList.add('image');
+        div.classList.add('link');
         div.innerHTML = `
             <input type="checkbox" class="checkbox" value="${image.largeImageURL}">
-            <img src="${image.previewURL}" alt="${image.tags}">
+            <a href="${image.largeImageURL}" download>${image.tags || 'Download Image'}</a>
         `;
         imageResults.appendChild(div);
     });
