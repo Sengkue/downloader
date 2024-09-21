@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,17 +13,17 @@ header {
     color: white;
     padding: 20px;
     text-align: center;
-    position: relative;
 }
 
 h1 {
     margin: 0;
+    font-weight: 500;
 }
 
 .search-box {
     position: relative;
     display: inline-block;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 #search-input {
