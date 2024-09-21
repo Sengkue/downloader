@@ -1,5 +1,7 @@
 let currentPage = 1;
 const imagesPerPage = 10;
+let totalHits = 0;
+let totalPages = 0;
 
 document.getElementById("search-button").addEventListener("click", async () => {
     const query = document.getElementById("search-input").value;
@@ -10,7 +12,9 @@ document.getElementById("search-button").addEventListener("click", async () => {
         const response = await fetch(url);
         const data = await response.json();
         displayImages(data.hits);
-        updatePagination(data.totalHits);
+        totalHits = data.totalHits;
+        totalPages = Math.ceil(totalHits / imagesPerPage);
+        updatePagination();
     } catch (error) {
         console.error("Error fetching images:", error);
     }
@@ -38,7 +42,6 @@ function displayImages(images) {
         imageResults.appendChild(div);
     });
 
-    // Add event listener for select all checkbox
     const selectAllCheckbox = document.getElementById("select-all");
     selectAllCheckbox.addEventListener("change", (event) => {
         const checkboxes = document.querySelectorAll(".checkbox");
@@ -48,10 +51,8 @@ function displayImages(images) {
     });
 }
 
-function updatePagination(totalHits) {
+function updatePagination() {
     const pageInfo = document.getElementById("page-info");
-    const totalPages = Math.ceil(totalHits / imagesPerPage);
-
     pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
 
     document.getElementById("prev-button").disabled = currentPage === 1;
@@ -66,8 +67,10 @@ document.getElementById("prev-button").addEventListener("click", () => {
 });
 
 document.getElementById("next-button").addEventListener("click", () => {
-    currentPage++;
-    fetchImages();
+    if (currentPage < totalPages) {
+        currentPage++;
+        fetchImages();
+    }
 });
 
 function fetchImages() {
@@ -79,7 +82,9 @@ function fetchImages() {
         .then(response => response.json())
         .then(data => {
             displayImages(data.hits);
-            updatePagination(data.totalHits);
+            totalHits = data.totalHits;
+            totalPages = Math.ceil(totalHits / imagesPerPage);
+            updatePagination();
         })
         .catch(error => console.error("Error fetching images:", error));
 }
